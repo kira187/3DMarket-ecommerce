@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->enum('status', [Product::BORRADOR, Product::PUBLICADO])->default(Product::BORRADOR);
             $table->float('price');
-            $table->foreignId('subcategory_id')->constrained('sub_categories');
+            $table->foreignId('subcategory_id')->constrained();
             $table->foreignId('brand_id')->constrained();
             $table->integer('quantity')->nullable();
             $table->timestamps();
