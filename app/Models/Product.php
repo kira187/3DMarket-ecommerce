@@ -42,6 +42,6 @@ class Product extends Model
     // Relationship polymorph
     public function images()
     {
-        return $this->morphToMany(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

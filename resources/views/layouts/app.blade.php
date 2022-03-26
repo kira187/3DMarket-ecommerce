@@ -13,10 +13,12 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/glider-js/glider.css') }}">
         @livewireStyles
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="{{ asset('vendor/glider-js/glider.min.js')}}"></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -50,18 +52,20 @@
                     show() {
                         if (this.open) {
                             this.open = false;
-                            document.getElementByTagName('html')[0].style.overflow = 'auto'
+                            document.getElementsByTagName('html')[0].style.overflow = 'auto'
                         } else {
                             this.open = true;
-                            document.getElementByTagName('html')[0].style.overflow = 'hidden'
+                            document.getElementsByTagName('html')[0].style.overflow = 'hidden'
                         }
                     },
                     close () {
                         this.open = false;
-                        document.getElementByTagName('html')[0].style.overflow = 'auto'
+                        document.getElementsByTagName('html')[0].style.overflow = 'auto'
                     }
                 }
             }
         </script>
+
+        @stack('script')
     </body>
 </html>
