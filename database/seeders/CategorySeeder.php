@@ -33,7 +33,7 @@ class CategorySeeder extends Seeder
                 'icon' => '<i class="fas fa-gamepad"></i>'
             ],
             [
-                'name' => 'Celulares y tablets',
+                'name' => 'Ropa',
                 'slug' => Str::slug('Celulares y tablets'),
                 'icon' => '<i class="fas fa-laptop"></i>'
             ],
