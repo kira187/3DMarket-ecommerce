@@ -30,8 +30,15 @@ class AddCartItemSize extends Component
 
     public function updatedColorSelected($value)
     {
-        $this->stock = 10;
-        // $size = Size::find($this->size_selected); 
-        // $this->stock = $size->colors->find($value)->pivot->quantity;
+        $size = Size::find($this->size_selected); 
+        $this->stock = $size->colors->find($value)->pivot->quantity;
+    }
+
+    public function decrement(){
+        $this->qty = $this->qty - 1;
+    }
+
+    public function increment(){
+        $this->qty = $this->qty + 1;
     }
 }
