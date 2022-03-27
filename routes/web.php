@@ -26,3 +26,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('search-results', SearchController::class)->name('search');
+Route::get('test', function(){
+    \Cart::destroy();
+});

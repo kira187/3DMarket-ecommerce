@@ -17,10 +17,16 @@
                 wire:loading.attr="disabled"
                 wire:target="increment"
                 wire:click="increment"> + </x-jet-secondary-button>
-        </div>
+        </div>      
 
         <div class="flex-1">
-            <x-button color="orange" class="w-full"> Agregra al carrito de compras</x-button>
+            <x-button color="orange" class="w-full"
+                x-bind:disabled="$wire.qty > $wire.stock"
+                wire:click="addItem"
+                wire:loading.attr="disabled"
+                wire:target="addItem">
+                Agregra al carrito de compras
+            </x-button>
         </div>
     </div>
 </div>
