@@ -33,7 +33,7 @@
                         </span>
 
                         <div class="ml-4">
-                            <p class="text-lg font-semibold text-greenLime-600">Se hace enviós a todo México</p>
+                            <p class="text-lg font-semibold text-greenLime-600">Se hacen enviós a todo México</p>
                             <p> Recibelo el {{ Date::now()->addDay(7)->locale('es')->format('l j F') }}</p>
                         </div>
                     </div>
