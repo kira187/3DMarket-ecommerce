@@ -88,7 +88,7 @@
                 </div>
 
                 <div>
-                    <x-button-enlace>
+                    <x-button-enlace color="orange" class="cursor-pointer" href="{{ route('orders.create')}}">
                         Continuar
                     </x-button-enlace>
                 </div>

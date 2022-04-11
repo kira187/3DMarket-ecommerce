@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Color;
+use App\Models\Department;
 use App\Models\Subcategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -32,5 +33,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ColorProductSeeder::class);
         $this->call(SizeSeeder::class);
         $this->call(ColorSizeSeeder::class);
+        $this->call(DepartmentSeeder::class);
     }
 }
