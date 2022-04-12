@@ -18,25 +18,19 @@ class Order extends Model
     const ANULADO = 5;
 
     // Relationship invers 1:N
-    public function department()
-    {
-        $this->belongsTo(Department::class);
+    public function department(){
+        return $this->belongsTo(Department::class);
     }
 
-    // Relationship invers 1:N
-    public function city()
-    {
-        $this->belongsTo(City::class);
+    public function city(){
+        return $this->belongsTo(City::class);
     }
 
-    // Relationship invers 1:N
-    public function district()
-    {
+    public function district(){
         return $this->belongsTo(District::class);
     }
 
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo(User::class);
     }
 }
