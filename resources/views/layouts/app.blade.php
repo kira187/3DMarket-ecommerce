@@ -16,12 +16,6 @@
         <link rel="stylesheet" href="{{ asset('vendor/glider-js/glider.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/FlexSlider/flexslider.css') }}">
         @livewireStyles
-
-        <!-- Scripts -->
-        <script src="{{ mix('js/app.js') }}" defer></script>
-        <script src="{{ asset('vendor/glider-js/glider.min.js')}}"></script>
-        <script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
-        <script src="{{ asset('vendor/FlexSlider/jquery.flexslider-min.js')}}"></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -47,7 +41,11 @@
         @stack('modals')
 
         @livewireScripts
-
+        <!-- Scripts -->
+        <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="{{ asset('vendor/glider-js/glider.min.js')}}"></script>
+        <script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
+        <script src="{{ asset('vendor/FlexSlider/jquery.flexslider-min.js')}}"></script>
         <script>
             function dropdown() {
                 return {

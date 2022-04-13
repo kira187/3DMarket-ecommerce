@@ -176,11 +176,11 @@
             paypal.Buttons({
             createOrder: (data, actions) => {
                 return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                    value: "{{ $order->total }}"
-                    }
-                }]
+                    purchase_units: [{
+                        amount: {
+                        value: "{{ $order->total }}"
+                        }
+                    }]
                 });
             },
             onApprove: (data, actions) => {
