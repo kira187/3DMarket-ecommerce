@@ -8,9 +8,22 @@ use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('orders.index');
+        $orders = Order::query()->where('user_id', auth()->user()->id);
+
+        if ($request->status) {
+            $orders->where('status', $request->status);
+        }
+        $orders = $orders->get();
+
+        $ordersPending = Order::where('status', 1)->where('user_id', auth()->user()->id)->count();
+        $ordersRecived = Order::where('status', 2)->where('user_id', auth()->user()->id)->count();
+        $ordersSended = Order::where('status', 3)->where('user_id', auth()->user()->id)->count();
+        $ordersDelivered = Order::where('status', 4)->where('user_id', auth()->user()->id)->count();
+        $ordersCanceled = Order::where('status', 5)->where('user_id', auth()->user()->id)->count();
+
+        return view('orders.index', compact('orders', 'ordersPending', 'ordersRecived', 'ordersSended', 'ordersDelivered', 'ordersCanceled'));
     }
 
     public function show(Order $order)
