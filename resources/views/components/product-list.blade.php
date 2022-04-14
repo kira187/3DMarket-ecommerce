@@ -10,7 +10,7 @@
             <div class="flex justify-between">
                 <div>
                     <h1 class="text-lg font-semibold text-gray-700">{{ $product->name }}</h1>
-                    <p class="font-bold text-gray-700">USD {{ $product->price}} </p>
+                    <p class="font-bold text-gray-700">$ {{ $product->price}} </p>
                 </div>
 
                 <div class="flex items-center">
