@@ -53,13 +53,13 @@
                                     @case(2)
                                         <i class="fas fa-credit-card text-gray-500 opacity-50"></i>
                                         @break
-                                    @case(2)
+                                    @case(3)
                                         <i class="fas fa-truck text-yellow-500 opacity-50"></i>
                                         @break
-                                    @case(2)
-                                        <i class="fas fa-circle-check text-pink-500 opacity-50"></i>
+                                    @case(4)
+                                        <i class="fas fa-check-circle text-pink-500 opacity-50"></i>
                                         @break
-                                    @case(2)
+                                    @case(5)
                                         <i class="fas fa-times-circle text-green-500 opacity-50"></i>
                                         @break
                                     @default
