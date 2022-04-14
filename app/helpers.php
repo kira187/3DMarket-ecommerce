@@ -40,3 +40,55 @@ function stock_available($product_id, $color_id = null, $size_id = null)
 {
     return stock($product_id, $color_id, $size_id) - qty_added($product_id, $color_id, $size_id);
 }
+
+function discount_stock($item)
+{
+    $product = Product::find($item->id);
+    $stock_available = stock_available($item->id, $item->options->color_id, $item->options->size_id);
+
+    if ($item->options->size_id) {
+
+        $size = Size::find($item->options->size_id);
+        $size->colors()->updateExistingPivot(
+            $item->options->color_id , ['quantity'=> $stock_available]
+        );
+
+    } elseif ($item->options->color_id) {
+
+        $product->colors()->updateExistingPivot(
+            $item->options->color_id , ['quantity'=> $stock_available]
+        );
+
+    } else {
+        
+        $product->quantity = $stock_available;
+        $product->save();
+
+    }
+}
+
+function recovery_stock($item)
+{
+    $product = Product::find($item->id);
+    $stock = stock($item->id, $item->options->color_id, $item->options->size_id) + $item->qty;
+
+    if ($item->options->size_id) {
+
+        $size = Size::find($item->options->size_id);
+        $size->colors()->updateExistingPivot(
+            $item->options->color_id , ['quantity'=> $stock]
+        );
+
+    } elseif ($item->options->color_id) {
+
+        $product->colors()->updateExistingPivot(
+            $item->options->color_id , ['quantity'=> $stock]
+        );
+
+    } else {
+        
+        $product->quantity = $stock;
+        $product->save();
+
+    }
+}
