@@ -30,10 +30,13 @@
             </div>
         </div>
         
-        <div class="card px-6 py-4">
+        <div class="card px-6 py-4 flex items-center">
             <p class="text-gray-700 uppercase">
                 <span class="font-semibold">Número de orden:</span> Orden-{{ $order->id }}
             </p>
+            @if ($order->status == Order::PENDIENTE)
+                <x-button-enlace class="ml-auto" href="{{route('orders.payment', $order) }}"> Ir a pagar </x-button-enlace>
+            @endif
         </div>
 
         <div class="card p-6 my-6">

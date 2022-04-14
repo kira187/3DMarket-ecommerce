@@ -33,4 +33,28 @@ class Order extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function getDescriptionStatusAttribute()
+    {
+        switch ($this->status) {
+            case 1:
+                $status =  'Pendiente';
+                break;
+            case 2:
+                $status =  'Recibido';
+                break;
+            case 3:
+                $status =  'Enviado';
+                break;
+            case 4:
+                $status =  'Entregado';
+                break;
+            case 5:
+                $status =  'Anulado';
+                break;
+            default:
+                break;
+        }
+        return $status;
+    }
 }

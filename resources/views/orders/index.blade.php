@@ -74,25 +74,7 @@
 
                             <div class="ml-auto">
                                 <span class="font-bold">
-                                    @switch($order->status)
-                                        @case(1)
-                                            Pendiente
-                                            @break
-                                        @case(2)
-                                            Recibido                                        
-                                            @break
-                                        @case(2)
-                                            Enviado
-                                            @break
-                                        @case(2)
-                                            Entregado
-                                            @break
-                                        @case(2)
-                                            Anulado
-                                            @break
-                                        @default
-                                            
-                                    @endswitch
+                                    {{ $order->description_status }}
                                 </span>
                                 <span class="text-sm">
                                     $ {{ $order->total }}
