@@ -17,6 +17,9 @@ mix.js('resources/js/app.js', 'public/js')
         require('tailwindcss'),
     ]);
 
+    // Disable notification after compile
+mix.disableNotifications();
+
 if (mix.inProduction()) {
     mix.version();
 }
