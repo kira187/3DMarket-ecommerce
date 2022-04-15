@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
         <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
