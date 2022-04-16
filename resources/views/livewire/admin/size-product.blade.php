@@ -67,7 +67,7 @@
                     confirmButtonText: 'Eliminar'
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        Livewire.emit('delete', sizeId);
+                        Livewire.emitTo('admin.size-product', 'delete', sizeId);
                         Swal.fire(
                             'Eliminado',
                             'La talla ha sido eliminada.',

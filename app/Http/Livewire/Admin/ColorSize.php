@@ -11,6 +11,8 @@ class ColorSize extends Component
     public $size, $colors, $color_id, $quantity, $pivot, $openModal = false;
     public $pivot_color_id, $pivot_quantity;
 
+    protected $listeners = ['delete'];
+
     protected $rules = [
         'color_id' => 'required',
         'quantity' => 'required|numeric',
@@ -24,15 +26,26 @@ class ColorSize extends Component
     public function save()
     {
         $this->validate();
-        $this->size->colors()->attach([
-            $this->color_id => [
-                'quantity' => $this->quantity
-            ]
-        ]);
+
+        $pivot = Pivot::where('color_id', $this->color_id)
+                    ->where('size_id', $this->size->id)
+                    ->first();
+
+        if ($pivot) {
+            $pivot->quantity = $pivot->quantity + $this->quantity;
+            $pivot->save();
+        } else {
+            $this->size->colors()->attach([
+                $this->color_id => [
+                    'quantity' => $this->quantity
+                ]
+            ]);
+        }
 
         $this->reset(['color_id', 'quantity']);
+        $this->size = $this->size->fresh();        
         $this->emit('saved');
-        $this->size = $this->size->fresh();
+        $this->emitToast('Exito', 'success', 'Articulo '. ($pivot ? 'actualizado' : 'creado') .' exitosamente');
     }
 
     public function edit(Pivot $pivot)
@@ -48,9 +61,23 @@ class ColorSize extends Component
         $this->pivot->color_id = $this->pivot_color_id;
         $this->pivot->quantity = $this->pivot_quantity;
         $this->pivot->save();
-
+        
         $this->size = $this->size->fresh();
         $this->openModal = false;
+        
+        $this->emitToast('Exito', 'success', 'Articulo actualizado exitosamente');
+    }
+
+    public function delete(Pivot $pivot)
+    {
+        $pivot->delete();
+        $this->size = $this->size->fresh();
+    }
+
+    public function emitToast($title = null, $type, $message)
+    {
+        $this->dispatchBrowserEvent('alert',
+            [ 'title' => $title ?? '', 'type' => $type,  'message' => $message]);
     }
 
     public function render()

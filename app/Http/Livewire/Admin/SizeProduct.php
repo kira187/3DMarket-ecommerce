@@ -19,14 +19,24 @@ class SizeProduct extends Component
     public function save()
     {
         $this->validate();
-        $this->product->sizes()->create([
-            'name' => $this->name
-        ]);
 
+        $size = Size::where('product_id', $this->product->id)
+                    ->where('name', $this->name)
+                    ->first();
+        
+        if ($size) {
+            $this->emit('errorSize', 'La talla que intenta agregar ya se encuentra registrada');
+            $this->reset('name');
+            return true;
+        } else {
+            $this->product->sizes()->create([
+                'name' => $this->name
+            ]);
+        }
+        
         $this->reset('name');
         $this->product = $this->product->fresh();
-        $this->dispatchBrowserEvent('alert',
-            [ 'title' => 'Exito', 'type' => 'success',  'message' => 'Talla agregada correctamente']);
+        $this->emitToast('Exito', 'success', 'Talla agregada correctamente');
     }
 
     public function delete(Size $size)
@@ -52,6 +62,14 @@ class SizeProduct extends Component
         $this->size->save();
         $this->product = $this->product->fresh();
         $this->openModal = false;
+
+        $this->emitToast('Exito', 'success', 'Talla actualizada correctamente');
+    }
+
+    public function emitToast($title = null, $type, $message)
+    {
+        $this->dispatchBrowserEvent('alert',
+            [ 'title' => $title ?? '', 'type' => $type,  'message' => $message]);
     }
 
     public function render()

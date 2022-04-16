@@ -50,9 +50,19 @@
                iziToast[event.detail.type]({
                     title: event.detail.title ?? 'Aviso',
                     message: event.detail.message,
-                    position: 'bottomCenter',
+                    position: 'topRight',
                 }); 
             });
+        </script>
+        <script>
+            Livewire.on('errorSize', message => {
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: message,
+                confirmButtonAriaLabel: 'Aceptar',
+                })
+            })
         </script>
     </body>
 </html>
