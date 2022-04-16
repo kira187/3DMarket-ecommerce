@@ -25,6 +25,8 @@ class SizeProduct extends Component
 
         $this->reset('name');
         $this->product = $this->product->fresh();
+        $this->dispatchBrowserEvent('alert',
+            [ 'title' => 'Exito', 'type' => 'success',  'message' => 'Talla agregada correctamente']);
     }
 
     public function delete(Size $size)

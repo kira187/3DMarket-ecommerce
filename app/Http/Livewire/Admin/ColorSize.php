@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Color;
+use App\Models\ColorSize as Pivot;
 use Livewire\Component;
 
 class ColorSize extends Component
 {
-    public $size, $colors, $color_id, $quantity;
+    public $size, $colors, $color_id, $quantity, $pivot, $openModal = false;
+    public $pivot_color_id, $pivot_quantity;
 
     protected $rules = [
         'color_id' => 'required',
@@ -31,6 +33,24 @@ class ColorSize extends Component
         $this->reset(['color_id', 'quantity']);
         $this->emit('saved');
         $this->size = $this->size->fresh();
+    }
+
+    public function edit(Pivot $pivot)
+    {
+        $this->openModal = true;
+        $this->pivot = $pivot;
+        $this->pivot_color_id = $this->pivot->color_id;
+        $this->pivot_quantity = $this->pivot->quantity;
+    }
+
+    public function update()
+    {
+        $this->pivot->color_id = $this->pivot_color_id;
+        $this->pivot->quantity = $this->pivot_quantity;
+        $this->pivot->save();
+
+        $this->size = $this->size->fresh();
+        $this->openModal = false;
     }
 
     public function render()
