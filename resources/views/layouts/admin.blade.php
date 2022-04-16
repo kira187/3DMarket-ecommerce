@@ -13,8 +13,9 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('vendor/iziToast/css/iziToast.min.css') }}">
-        
+        <link rel="stylesheet" href="{{ asset('vendor/iziToast/css/iziToast.min.css') }}">        
+        <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
@@ -39,11 +40,17 @@
         @stack('modals')
 
         @livewireScripts
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <script src="{{ asset('vendor/iziToast/js/iziToast.min.js')}}"></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
+        {{-- Jquery --}}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        {{-- IziToast --}}
+        <script src="{{ asset('vendor/iziToast/js/iziToast.min.js')}}"></script>
+        {{-- Ckeditor --}}
+        <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+        {{-- Sweat alert --}}
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        {{-- dropzone --}}
+        <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
         @stack('script')
         <script>
             window.addEventListener('alert', event => { 
