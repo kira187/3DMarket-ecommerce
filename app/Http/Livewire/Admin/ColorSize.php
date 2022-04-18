@@ -9,7 +9,7 @@ use Livewire\Component;
 class ColorSize extends Component
 {
     public $size, $colors, $color_id, $quantity, $pivot, $openModal = false;
-    public $pivot_color_id, $pivot_quantity;
+    public $pivot_color_id, $pivot_quantity, $confirmingPivotDeletion = false, $deleteId = '';
 
     protected $listeners = ['delete'];
 
@@ -68,10 +68,20 @@ class ColorSize extends Component
         $this->emitToast('Exito', 'success', 'Articulo actualizado exitosamente');
     }
 
-    public function delete(Pivot $pivot)
+    public function deletePivotId($id)
     {
-        $pivot->delete();
+        $this->confirmingPivotDeletion = true;
+        $this->deleteId = $id;
+    }
+    
+    public function delete()
+    {
+        Pivot::find($this->deleteId)->delete();
+        $this->deleteId = '';
         $this->size = $this->size->fresh();
+        $this->confirmingPivotDeletion = false;
+        $this->dispatchBrowserEvent('alert',
+            [ 'title' => 'Exito' ?? '', 'type' => 'success',  'message' => 'Producto eliminado correctamente']);
     }
 
     public function emitToast($title = null, $type, $message)

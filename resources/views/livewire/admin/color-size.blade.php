@@ -41,7 +41,8 @@
                 </thead>
                 <tbody>
                     @foreach ($size_colors as $size_color)
-                        <tr wire:key="product-color-{{ $size_color->pivot->id }}">
+                    
+                        <tr wire:key="product-color-size-{{ $size_color->pivot->id }}">
                             <td class="capitalize px-4 py-2"> {{ $colors->find($size_color->pivot->color_id)->name }}</td>
                             <td class="px-4 py-2">{{ $size_color->pivot->quantity }} unidades</td>
                             <td class="px-4 py-2 flex">
@@ -53,7 +54,7 @@
                                     Actualizar
                                 </x-jet-secondary-button>
 
-                                <x-jet-danger-button wire:click="$emit('deletePivot', {{ $size_color->pivot->id }})">
+                                <x-jet-danger-button wire:click="deletePivotId({{ $size_color->pivot->id }})">
                                     Eliminar
                                 </x-jet-danger-button>
                             </td>
@@ -97,28 +98,17 @@
         </x-slot>
     </x-jet-dialog-modal>
 
-    @push('script')
-        <script>
-            Livewire.on('deletePivot', pivot => {
-                Swal.fire({
-                    title: 'Estas seguro?',
-                    text: "Esta acción es irrreversible ",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Eliminar'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        Livewire.emitTo('admin.color-size', 'delete', pivot);
-                        Swal.fire(
-                            'Eliminado',
-                            'Tu producto ha sido eliminado.',
-                            'success',
-                        )
-                    }
-                })
-            })
-        </script>
-    @endpush
+    <x-jet-confirmation-modal wire:model="confirmingPivotDeletion">
+        <x-slot name="title"> Eliminar producto </x-slot>    
+        <x-slot name="content"> Estas seguro de eliminar este producto? </x-slot>    
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$toggle('confirmingPivotDeletion')" wire:loading.attr="disabled">
+                Coservarlo
+            </x-jet-secondary-button>
+    
+            <x-jet-danger-button class="ml-2" wire:click="delete" wire:loading.attr="disabled">
+                Eliminarlo
+            </x-jet-danger-button>
+        </x-slot>        
+    </x-jet-confirmation-modal>
 </div>

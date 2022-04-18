@@ -95,30 +95,5 @@
                 Actualizar
             </x-jet-button>
         </x-slot>
-    </x-jet-dialog-modal>
-
-    @push('script')
-        <script>
-            Livewire.on('deletePivot', pivot => {
-                Swal.fire({
-                    title: 'Estas seguro?',
-                    text: "Esta acción es irrreversible ",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Eliminar'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        Livewire.emitTo('admin.color-product', 'delete', pivot);
-                        Swal.fire(
-                            'Eliminado',
-                            'Tu producto ha sido eliminado.',
-                            'success',
-                        )
-                    }
-                })
-            })
-        </script>
-    @endpush
+    </x-jet-dialog-modal>  
 </div>

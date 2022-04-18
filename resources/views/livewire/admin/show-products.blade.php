@@ -56,7 +56,7 @@
                                                     
                                             @else
                                                 <img class="h-10 w-10 rounded-full object-cover"
-                                                    src="https://dummyimage.com/600x400/e8e5e8/4f5bdb&text=404" alt="">
+                                                    src="https://dummyimage.com/40x40/e8e5e8/4f5bdb&text=404" alt="">
                                             @endif
                                         </div>
                                         <div class="ml-4">

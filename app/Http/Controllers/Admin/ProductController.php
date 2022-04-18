@@ -12,7 +12,14 @@ class ProductController extends Controller
 {
     public function files(Product $product, Request $request)
     {
-        dd($request);
-        Storage::put('products', $request->file('file'));
+        $request->validate([
+            'file' => 'required|image|max:2048'
+        ]);
+        
+        $url = Storage::put('products', $request->file('file'));
+
+        $product->images()->create([ 
+            'url' => $url 
+        ]);
     }
 }

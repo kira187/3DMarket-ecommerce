@@ -4,9 +4,12 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\Subcategory;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -14,6 +17,8 @@ class EditProduct extends Component
 {
     public $product, $categories;
     public $category_id, $subcategories, $brands, $slug;
+
+    protected $listeners = ['refreshProduct'];
 
     protected $rules = [
         'category_id' => 'required',
@@ -69,6 +74,25 @@ class EditProduct extends Component
         $this->product->slug = $this->slug;
         $this->product->save();
         $this->emit('updated');
+        $this->dispatchBrowserEvent('alert',
+        [ 'title' => 'Exito', 'type' => 'success',  'message' => 'Producto actualizado satisfactoriamente']);
+    }
+
+    public function deleteImage(Image $image)
+    {
+        Storage::delete([$image->url]);
+        $image->delete();
+        $this->product = $this->product->fresh();
+
+        $this->dispatchBrowserEvent('alert',
+            [ 'title' => 'Exito', 'type' => 'success',  'message' => 'Imagen eliminada satisfactoriamente']);
+    }
+
+    public function refreshProduct()
+    {
+        $this->product = $this->product->fresh();
+        $this->dispatchBrowserEvent('alert',
+            [ 'title' => 'Exito', 'type' => 'success',  'message' => 'Imagenes subidas satisfactoriamente']);
     }
 
     public function getSubcategoryProperty()

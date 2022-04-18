@@ -1013,6 +1013,12 @@ select {
 .-left-2 {
   left: -0.5rem;
 }
+.right-2 {
+  right: 0.5rem;
+}
+.top-2 {
+  top: 0.5rem;
+}
 .z-0 {
   z-index: 0;
 }
@@ -1297,6 +1303,9 @@ select {
 }
 .w-96 {
   width: 24rem;
+}
+.w-32 {
+  width: 8rem;
 }
 .min-w-0 {
   min-width: 0px;
