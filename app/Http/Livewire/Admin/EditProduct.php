@@ -18,7 +18,7 @@ class EditProduct extends Component
     public $product, $categories;
     public $category_id, $subcategories, $brands, $slug;
 
-    protected $listeners = ['refreshProduct'];
+    protected $listeners = ['refreshProduct', 'deleteImage'];
 
     protected $rules = [
         'category_id' => 'required',
@@ -102,6 +102,6 @@ class EditProduct extends Component
 
     public function render()
     {
-        return view('livewire.admin.edit-product')->layout('layouts.admin');
+        return view('livewire.admin.edit-product')->layout('layouts.adminv2');
     }
 }

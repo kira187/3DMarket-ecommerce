@@ -13,7 +13,7 @@ class Product extends Model
     const BORRADOR = 1;
     const PUBLICADO = 2;
 
-    protected $fillable = ['name', 'slug', 'description', 'price', 'subcategory_id', 'brand_id', 'quantity'];
+    protected $fillable = ['name', 'slug', 'description', 'price', 'subcategory_id', 'brand_id', 'quantity', 'status'];
 
     // Accesors
     public function getStockAttribute()
