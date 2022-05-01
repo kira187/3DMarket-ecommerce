@@ -1,40 +1,60 @@
-<div>
-    <div class="card p-6 mt-12">
-        <div>
-            <x-jet-label> Talla </x-jet-label>
-            <x-jet-input wire:model.defer="name" type="text" class="w-full" flaceholder="Ingrese una talla" />
-            <x-jet-input-error for="name"/>
-        </div>
-        <div class="flex justify-end items-center mt-4">
-            <x-jet-button 
-                wire:click="save"
-                wire:loading.attr="disabled"
-                wire:target="save"> Agregar </x-jet-button>
-        </div>
-    </div>
+<div class="row">
 
-    <ul class="mt-12 space-y-4">
-        @foreach ($sizes as $size)
-            <li class="bg-white shadow-lg rounded-lg p-6" wire:key="size-{{ $size->id }}">
-                <div class="flex items-center">
-                    <span class="text-xl font-medium">{{ $size->name }}</span>
-                    <div class="ml-auto">
-                        <x-jet-button
-                            wire:click="edit({{ $size->id }})"
-                            wire:loading.attr="disabled"
-                            wire:target="edit({{ $size->id }})">
-                            <i class="fas fa-edit"></i>
-                        </x-jet-button>
-
-                        <x-jet-danger-button wire:click="$emit('deleteSize', {{ $size->id }})">
-                            <i class="fas fa-trash"></i>
-                        </x-jet-danger-button>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="container">
+                    <h3 class="box-title">Stock del producto</h3>
+                    <div class="row m-t-20">
+                        <div class="col-lg-12">
+                            <div class="form-group @error('name') has-danger @enderror">
+                                <x-jet-label> Talla </x-jet-label>
+                                <input type="text" class="form-control @error('name') form-control-danger @enderror" wire:model="name">
+                                @error('name')
+                                    <small class="form-control-feedback" role="alert">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <button class="btn btn-info"
+                                wire:loading.attr="disabled"
+                                wire:target="save"
+                                wire:click="save">
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="m-t-15">
+                        @foreach ($sizes as $size)                        
+                            <div class="card earning-widget" wire:key="size-{{ $size->id }}">
+                                <div class="card-header">
+                                    <div class="card-actions">                                                
+                                        <a class="btn btn-secondary" data-action="collapse"><i class="ti-minus"></i></a>
+                                        <button class="btn btn-muted"
+                                            data-toggle="modal" data-target="#editTalla" 
+                                            wire:click="edit({{ $size->id }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="edit({{ $size->id }})">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger" wire:click="deletePivotId({{ $size->id }})" data-toggle="modal" data-target="#deleteTalla" >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <h4 class="card-title m-b-0">{{ $size->name }}</h4>
+                                </div>
+                                <livewire:admin.color-size :size="$size" :wire:key="'color-size-'.$size->id"/>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-                <livewire:admin.color-size :size="$size" :wire:key="'color-size-'.$size->id"/>
-            </li>
-        @endforeach
-    </ul>
+            </div>
+        </div>
+    </div>
 
     <x-jet-dialog-modal wire:model="openModal">
         <x-slot name="title"> Editar talla </x-slot>
