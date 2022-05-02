@@ -56,21 +56,28 @@
         </div>
     </div>
 
-    <x-jet-dialog-modal wire:model="openModal">
+    <x-modal :id="'editTalla'">
         <x-slot name="title"> Editar talla </x-slot>
         <x-slot name="content">
-            <x-jet-label> Talla </x-jet-label>
-            <x-jet-input type="text" class="w-full" wire:model.defer="name_edit"/>
-            <x-jet-input-error for="name_edit" />
+            <div class="form-group @error('name_edit') has-danger @enderror">
+                <x-jet-label> Talla </x-jet-label>
+                <x-jet-input type="text" class="form-control" wire:model.defer="name_edit"/>
+                @error('name_edit')
+                    <small class="form-control-feedback" role="alert">
+                        {{ $message }}
+                    </small>
+                @enderror
+            </div>
         </x-slot>
         <x-slot name="footer">
-            <x-jet-secondary-button wire:click="$set('openModal', false)" class="mr-2">  Cancelar  </x-jet-secondary-button>
-            <x-jet-button 
+            <button class="btn btn-secondary mr-2" data-dismiss="modal">  Cancelar  </button>
+            <button class="btn btn-primary"
                 wire:click="update"
                 wire:loading.attr="disable"
-                wire:target="update">
+                wire:target="update"
+                data-dismiss="modal">
                 Actualizar  
-            </x-jet-button>
+            </button>
         </x-slot>
-    </x-jet-dialog-modal>
+    </x-modal>
 </div>

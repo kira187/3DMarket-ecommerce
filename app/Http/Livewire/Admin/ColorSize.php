@@ -8,6 +8,7 @@ use Livewire\Component;
 
 class ColorSize extends Component
 {
+    public $editedProductIndex = null, $editedProductField = null;
     public $size, $colors, $color_id, $quantity, $pivot, $openModal = false;
     public $pivot_color_id, $pivot_quantity, $confirmingPivotDeletion = false, $deleteId = '';
 
@@ -46,6 +47,33 @@ class ColorSize extends Component
         $this->size = $this->size->fresh();        
         $this->emit('saved');
         $this->emitToast('Exito', 'success', 'Articulo '. ($pivot ? 'actualizado' : 'creado') .' exitosamente');
+    }
+
+    public function editProduct(Pivot $pivot)
+    {
+        $this->editedProductIndex = $pivot->id;
+        $this->pivot = $pivot;
+        $this->pivot_color_id = $this->pivot->color_id;
+        $this->pivot_quantity = $this->pivot->quantity;
+    }
+
+
+    public function updateProduct($productIndex)
+    {   
+        $rules = [
+            'pivot_color_id' => 'required',
+            'pivot_quantity' => 'required|numeric',
+        ];
+
+        $this->validate($rules);
+
+        $this->pivot->color_id = $this->pivot_color_id;
+        $this->pivot->quantity = $this->pivot_quantity;
+        $this->pivot->save();
+        
+        $this->size = $this->size->fresh();
+        $this->editedProductIndex = null;
+        $this->emitToast('Exito', 'success', 'Articulo actualizado exitosamente');
     }
 
     public function edit(Pivot $pivot)

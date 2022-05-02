@@ -1,70 +1,118 @@
-<div class="mt-4">
-    <div class="my-12 bg-gray-100 shadow-lg rounded-lg p-6">
-        {{-- Colors checbocx --}}
-        <div class="mb-6">
-            <x-jet-label value="Color" />
-            <div class="grid grid-cols-6 gap-6">
-                @foreach ($colors as $color)
-                    <label>
-                        <input wire:model.defer="color_id" type="radio" name="color_id" value="{{ $color->id }}">
-                        <span class="ml-2 text-gray-700 capitalize">{{ $color->name }}</span>
-                    </label>
-                @endforeach
+<div class="card-body b-t collapse show">    
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form group @error('color_id') has-danger @enderror">
+                        <x-jet-label> Color </x-jet-label>
+                        <select class="form-control" wire:model.defer="color_id">
+                            <option value="" selected hidden>Seleccione un color</option>
+                            @foreach ($colors as $color)
+                                <option value="{{ $color->id }}">{{ ucfirst($color->name) }}</option>
+                            @endforeach
+                        </select>
+                        @error('color_id')
+                            <small class="form-control-feedback" role="alert">
+                                {{ $message }}
+                            </small>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group @error('quantity') has-danger @enderror">
+                        <label class="control-label">Stock</label>
+                        <input type="number" class="form-control  @error('quantity') form-control-danger @enderror" wire:model="quantity">
+                        @error('quantity')
+                            <small class="form-control-feedback" role="alert">
+                                {{ $message }}
+                            </small>
+                        @enderror
+                    </div>
+                </div>
             </div>
-            <x-jet-input-error  for="color_id" />
-        </div>
-        <div>
-            <x-jet-label name="Cantidad"/>
-            <x-jet-input wire:model.defer="quantity" type="number" placeholder="Ingrese una cantidad" class="w-full"/>
-            <x-jet-input-error for="quantity" />
-        </div>
-        <div class="flex justify-end items-center mt-4">
-            <x-jet-action-message class="mr-3" on="saved"> Agregado </x-jet-action-message>
-                <x-jet-button 
-                    wire:loading.attr="disabled"
-                    wire:target="save"
-                    wire:click="save">
-                    Agregar
-                </x-jet-button>
+            <div class="row">
+                <div class="col-12 text-right">
+                    <button class="btn btn-info"
+                        wire:loading.attr="disabled"
+                        wire:target="save"
+                        wire:click="save">
+                        Agregar
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     @if (count($size_colors))
-        <div class="mt-8">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 w-1/3">Color</th>
-                        <th class="px-4 py-2 w-1/3">Cantidad</th>
-                        <th class="px-4 py-2 w-1/3 text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($size_colors as $size_color)
-                    
-                        <tr wire:key="product-color-size-{{ $size_color->pivot->id }}">
-                            <td class="capitalize px-4 py-2"> {{ $colors->find($size_color->pivot->color_id)->name }}</td>
-                            <td class="px-4 py-2">{{ $size_color->pivot->quantity }} unidades</td>
-                            <td class="px-4 py-2 flex">
-                                <x-jet-secondary-button 
-                                    class="ml-auto mr-2" 
-                                    wire:click="edit({{ $size_color->pivot->id }})"
-                                    wire:loading.attr="disabled"
-                                    wire:target="edit({{ $size_color->pivot->id }})">
-                                    Actualizar
-                                </x-jet-secondary-button>
-
-                                <x-jet-danger-button wire:click="deletePivotId({{ $size_color->pivot->id }})">
-                                    Eliminar
-                                </x-jet-danger-button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Color</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($size_colors as $index => $size_color)
+                            
+                                <tr wire:key="product-color-size-{{ $size_color->pivot->id }}">
+                                    <td class="text-center">
+                                        @if ($editedProductIndex !== $size_color->pivot->id)
+                                            {{ $colors->find($size_color->pivot->color_id)->name }}
+                                        @else
+                                            <select class="form-control" wire:model.defer="pivot_color_id" disabled>
+                                                <option value="" selected hidden disabled>Seleccione un color</option>
+                                                @foreach ($colors as $color)
+                                                    <option value="{{ $color->id }}">{{ ucfirst($color->name) }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($editedProductIndex !== $size_color->pivot->id)
+                                            {{ $size_color->pivot->quantity }} unidades</td>
+                                        @else
+                                        <div class="form-group @error('pivot_quantity') has-danger @enderror">
+                                            <input type="number" placeholder="Ingrese una cantidad" class="form-control" wire:model.defer="pivot_quantity">
+                                            @error('pivot_quantity')
+                                                <small class="form-control-feedback" role="alert">
+                                                    {{ $message }}
+                                                </small>
+                                            @enderror
+                                        </div>
+                                        @endif
+                                    <td class="text-center">
+                                        @if ($editedProductIndex !== $size_color->pivot->id)
+                                            <button 
+                                                class="ml-auto mr-2 btn btn-secondary" 
+                                                wire:click.prevent="editProduct({{ $size_color->pivot->id }})">
+                                                Editar
+                                            </button>
+    
+                                            <button class="btn btn-danger" wire:click="deletePivotId({{ $size_color->pivot->id }})">
+                                                Eliminar
+                                            </button>
+                                        @else
+                                            <button 
+                                                class="ml-auto mr-2 btn btn-secondary" 
+                                                wire:click.prevent="updateProduct({{ $size_color->pivot->id }})">
+                                                Actualizar
+                                            </button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     @endif
 
+    
     <x-jet-dialog-modal wire:model="openModal">
         <x-slot name="title"> Editar colores </x-slot>
         <x-slot name="content"> 
@@ -79,7 +127,7 @@
             </div>
             <div>
                 <x-jet-label> Cantidad </x-jet-label>
-                <x-jet-input type="number" placeholder="Ingrese una cantidad" class="w-full" wire:model="pivot_quantity"/>
+                <x-jet-input type="number" placeholder="Ingrese una cantidad" class="form-control" wire:model="pivot_quantity"/>
             </div>
         </x-slot>
         <x-slot name="footer">
